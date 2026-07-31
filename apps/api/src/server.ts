@@ -5,9 +5,12 @@ import { IntentEngine } from "../../../packages/engine-core/src/IntentEngine.js"
 import { MemoryEngine } from "../../../packages/memory/src/MemoryEngine.js";
 import { PlanningEngine } from "../../../packages/planning/src/PlanningEngine.js";
 import { DecisionEngine } from "../../../packages/decision/src/DecisionEngine.js";
+import { RealityEngine } from "../../../packages/reasoning/src/RealityEngine.js";
+import { UncertaintyEngine } from "../../../packages/reasoning/src/UncertaintyEngine.js";
+import { PrincipleEngine } from "../../../packages/reasoning/src/PrincipleEngine.js";
 const app=express();app.use(cors());app.use(express.json());
-const kernel=new IdraKernel();const memoryEngine=new MemoryEngine();kernel.registerEngine(new IntentEngine());kernel.registerEngine(memoryEngine);kernel.registerEngine(new PlanningEngine());kernel.registerEngine(new DecisionEngine());await kernel.initialize();
-app.get("/health",(_req,res)=>res.json({status:"healthy",system:"Intelligence OS",kernel:"Idra",version:"0.3.0",engines:["IntentEngine","MemoryEngine","PlanningEngine","DecisionEngine"]}));
+const kernel=new IdraKernel();const memoryEngine=new MemoryEngine();kernel.registerEngine(new IntentEngine());kernel.registerEngine(memoryEngine);kernel.registerEngine(new RealityEngine());kernel.registerEngine(new UncertaintyEngine());kernel.registerEngine(new PrincipleEngine());kernel.registerEngine(new PlanningEngine());kernel.registerEngine(new DecisionEngine());await kernel.initialize();
+app.get("/health",(_req,res)=>res.json({status:"healthy",system:"Intelligence OS",kernel:"Idra",version:"0.4.0",engines:["IntentEngine","MemoryEngine","RealityEngine","UncertaintyEngine","PrincipleEngine","PlanningEngine","DecisionEngine"]}));
 app.get("/api/memory/:userId",async(req,res)=>res.json({success:true,memories:await memoryEngine.store.all(req.params.userId)}));
 app.post("/api/intelligence",async(req,res)=>{try{const {userId,message,metadata}=req.body;if(!userId||!message)return res.status(400).json({error:"userId and message are required"});const result=await kernel.execute({userId,message,metadata});res.json({success:true,requestId:result.context.requestId,confidence:result.context.confidence,durationMs:result.context.getDurationMs(),engines:result.results});}catch(error){res.status(500).json({success:false,error:error instanceof Error?error.message:"Unknown error"});}});
 const port=Number(process.env.PORT??3001);app.listen(port,()=>console.log(`Intelligence OS API: http://localhost:${port}`));
