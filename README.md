@@ -2,11 +2,32 @@
 
 A modular personal intelligence operating system.
 
-## Phase 1
+## Current stack
 - Idra Kernel
 - Event Bus
 - Execution Context
 - Engine SDK
 - Intent Engine
-- Express API
-- Tests
+- Memory Engine
+- Reality Engine
+- Uncertainty Engine
+- Principle Engine
+- Planning Engine
+- Decision Engine
+- Learning Engine
+- Reflection Engine
+
+## Local development
+- `npm install`
+- `npm run dev`
+
+## Vercel-ready endpoints
+- `/` → static landing page
+- `/health` → health check
+- `/intelligence` → intelligence API
+- `/memory/:userId` → memory lookup
+
+## Project status
+- GitHub: source of truth
+- Vercel: deployment target
+- Supabase: next persistence layer
