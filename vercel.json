@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/health", "destination": "/api/health" },
+    { "source": "/intelligence", "destination": "/api/intelligence" },
+    { "source": "/memory/:userId", "destination": "/api/memory/:userId" }
+  ]
+}
