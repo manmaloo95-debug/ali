@@ -1,0 +1,2 @@
+import type{AIProvider,AIRequest,AIResponse}from "./AIProvider.js";
+export class AIGateway{private providers=new Map<string,AIProvider>();register(provider:AIProvider){this.providers.set(provider.name,provider)}async generate(request:AIRequest,preferred?:string):Promise<AIResponse>{const provider=(preferred&&this.providers.get(preferred))??this.providers.values().next().value;if(!provider)throw new Error("No AI provider registered");return provider.generate(request)}}
