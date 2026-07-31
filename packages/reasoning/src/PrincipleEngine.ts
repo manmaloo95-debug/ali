@@ -1,0 +1,5 @@
+import type {EngineResult,EngineStatus} from "../../shared/src/types.js";
+import {ExecutionContext} from "../../engine-core/src/ExecutionContext.js";
+import type {IntelligenceEngine} from "../../engine-core/src/Engine.js";
+const principles=["human_first","privacy_by_design","transparency","reversibility","least_harm"];
+export class PrincipleEngine implements IntelligenceEngine{readonly name="PrincipleEngine";private status:EngineStatus="idle";getStatus(){return this.status;}async initialize(){this.status="healthy";}async execute(context:ExecutionContext):Promise<EngineResult>{const started=Date.now();const text=context.message.toLowerCase();const flags:string[]=[];if(/delete|حذف نهائي|امسح/.test(text))flags.push("irreversible_action");if(/password|كلمة السر|secret|مفتاح api/.test(text))flags.push("sensitive_data");return{success:true,data:{principles,flags,approved:flags.length===0,requiresConfirmation:flags.includes("irreversible_action")},confidence:.9,riskLevel:flags.length?"high":"low",engineName:this.name,durationMs:Date.now()-started};}async shutdown(){this.status="offline";}}
