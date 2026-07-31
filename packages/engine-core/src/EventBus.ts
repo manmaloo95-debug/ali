@@ -1,0 +1,3 @@
+export interface SystemEvent<T=unknown>{ id:string; type:string; timestamp:Date; payload:T; }
+type Handler=(event:SystemEvent)=>void|Promise<void>;
+export class EventBus { private handlers=new Map<string,Set<Handler>>(); subscribe(type:string,handler:Handler){ const set=this.handlers.get(type)??new Set<Handler>(); set.add(handler); this.handlers.set(type,set); return ()=>set.delete(handler); } async publish<T>(type:string,payload:T){ const event:SystemEvent<T>={id:crypto.randomUUID(),type,timestamp:new Date(),payload}; for(const handler of this.handlers.get(type)??[]) await handler(event); } }
