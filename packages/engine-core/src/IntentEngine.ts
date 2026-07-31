@@ -1,0 +1,5 @@
+import type { EngineResult, EngineStatus } from "../../shared/src/types.js";
+import { ExecutionContext } from "./ExecutionContext.js";
+import type { IntelligenceEngine } from "./Engine.js";
+type Intent="question"|"planning"|"task"|"memory"|"decision"|"unknown";
+export class IntentEngine implements IntelligenceEngine { readonly name="IntentEngine"; private status:EngineStatus="idle"; getStatus(){return this.status;} async initialize(){this.status="healthy";} async execute(context:ExecutionContext):Promise<EngineResult<{intent:Intent}>>{ const started=Date.now(); const text=context.message.toLowerCase(); let intent:Intent="unknown"; if(/خطة|خطط|plan/.test(text)) intent="planning"; else if(/مهمة|task/.test(text)) intent="task"; else if(/تذكر|ذاكرة|memory/.test(text)) intent="memory"; else if(/قرار|اختار|decision/.test(text)) intent="decision"; else if(/؟|^هل|^كيف|^ما/.test(text)) intent="question"; return {success:true,data:{intent},confidence:intent==="unknown"?.4:.85,riskLevel:"low",engineName:this.name,durationMs:Date.now()-started}; } async shutdown(){this.status="offline";} }
