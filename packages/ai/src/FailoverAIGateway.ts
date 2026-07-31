@@ -1,0 +1,2 @@
+import type{AIProvider,AIRequest,AIResponse}from "./AIProvider.js";
+export class FailoverAIGateway{constructor(private readonly providers:AIProvider[]){}async generate(request:AIRequest):Promise<AIResponse>{const errors:string[]=[];for(const provider of this.providers){try{return await provider.generate(request)}catch(error){errors.push(`${provider.name}: ${error instanceof Error?error.message:"failed"}`)}}throw new Error(`All AI providers failed. ${errors.join(" | ")}`)}}
