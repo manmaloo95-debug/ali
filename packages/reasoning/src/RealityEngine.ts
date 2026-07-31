@@ -1,0 +1,4 @@
+import type {EngineResult,EngineStatus} from "../../shared/src/types.js";
+import {ExecutionContext} from "../../engine-core/src/ExecutionContext.js";
+import type {IntelligenceEngine} from "../../engine-core/src/Engine.js";
+export class RealityEngine implements IntelligenceEngine{readonly name="RealityEngine";private status:EngineStatus="idle";getStatus(){return this.status;}async initialize(){this.status="healthy";}async execute(context:ExecutionContext):Promise<EngineResult>{const started=Date.now();const claims=context.message.split(/[.!؟?]/).map(x=>x.trim()).filter(Boolean);return{success:true,data:{claims,verificationRequired:claims.length>0,sourceStatus:"unverified",note:"No external fact should be treated as verified without evidence."},confidence:.5,riskLevel:"medium",engineName:this.name,durationMs:Date.now()-started};}async shutdown(){this.status="offline";}}
