@@ -21,6 +21,20 @@ A modular personal intelligence operating system.
 - `npm install`
 - `npm run dev`
 
+## Verification
+- `npm run typecheck`
+- `npm run test:all`
+- `npm run ci`
+- `npm run test:api`
+- `npm run test:memory`
+- `npm run test:audit`
+- `npm run test:kernel-audit`
+- `npm run test:failover`
+- `npm run test:resilience`
+- `npm run test:auth`
+
+See `docs/verification.md` for the full validation matrix.
+
 ## Vercel-ready endpoints
 - `/` → static landing page
 - `/health` → health check
@@ -30,4 +44,4 @@ A modular personal intelligence operating system.
 ## Project status
 - GitHub: source of truth
 - Vercel: deployment target
-- Supabase: next persistence layer
+- Supabase: persistence and auth layer
