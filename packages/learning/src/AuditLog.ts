@@ -1,0 +1,2 @@
+export interface AuditEntry {id:string;requestId:string;engine:string;success:boolean;confidence:number;riskLevel:string;durationMs:number;createdAt:Date;}
+export class AuditLog {private entries:AuditEntry[]=[];record(entry:AuditEntry){this.entries.push(entry);}list(limit=100){return this.entries.slice(-limit).reverse();}byRequest(requestId:string){return this.entries.filter(x=>x.requestId===requestId);}}
